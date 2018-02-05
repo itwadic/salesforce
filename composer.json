@@ -1,0 +1,14 @@
+{
+    "name": "panarican/salesforce",
+    "description": "SalesForce Api Wrapper",
+    "require": {
+        "mcorrigan/salesforce-rest-api-php-wrapper": "^1.0"
+    },
+    "license": "MIT License",
+    "authors": [
+        {
+            "name": "Efrain Lugo",
+            "email": "panarican@gmail.com"
+        }
+    ]
+}
