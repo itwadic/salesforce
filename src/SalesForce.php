@@ -10,9 +10,6 @@ namespace Panarican\SalesForce;
 
 use SalesforceRestAPI\SalesforceAPI;
 
-// TODO: Need to find a better method of including SalesForceInterface since aaronholbrook/autoload fails to load it
-include 'SalesForceInterface.php';
-
 abstract class SalesForce implements SalesForceInterface {
 	/**
 	 * SalesForce Object Name

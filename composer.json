@@ -5,6 +5,11 @@
         "mcorrigan/salesforce-rest-api-php-wrapper": "^1.0"
     },
     "license": "MIT License",
+    "autoload": {
+        "psr-4": {
+            "Panarican\\": ["src"]
+        }
+    },
     "authors": [
         {
             "name": "Efrain Lugo",
