@@ -93,7 +93,7 @@ abstract class SalesForce implements SalesForceInterface {
 	 */
 	private function getSetting($option) {
 		$setting = isset($this->settings[$option]) ? $this->settings[$option] : NULL;
-		$wpOption = function_exists('get_option') ? get_option($option) : NULL;
+		$wpOption = function_exists('get_option') ? get_option("salesforce_{$option}") : NULL;
 		return $setting ? $setting : $wpOption;
 	}
 
