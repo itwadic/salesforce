@@ -1,13 +1,15 @@
 {
     "name": "panarican/salesforce",
     "description": "SalesForce Api Wrapper",
+    "type": "library",
     "require": {
-        "mcorrigan/salesforce-rest-api-php-wrapper": "^1.0"
+        "mcorrigan/salesforce-rest-api-php-wrapper": "^1.0",
+        "php": ">=7.0"
     },
-    "license": "MIT License",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Panarican\\": ["src"]
+            "Panarican\\SalesForce\\": "/src"
         }
     },
     "authors": [

@@ -39,6 +39,11 @@ abstract class SalesForce implements SalesForceInterface {
 	 */
 	public $client;
 
+	/**
+	 * Settings used for the SalesForce class
+	 *
+	 * @var $settings
+	 */
 	private $settings = [];
 
 	/**
@@ -58,6 +63,15 @@ abstract class SalesForce implements SalesForceInterface {
 		$token = $this->getSetting('token');
 		$url = empty($instance) ? NULL : "https://{$instance}.salesforce.com";
 		$version = '41.0';
+
+		if (empty($instance) ||
+		    empty($id) ||
+		    empty($secret) ||
+		    empty($username) ||
+		    empty($password) ||
+		    empty($token)) {
+			return false;
+		}
 
 		$this->client = new SalesforceAPI(
 			$url,
@@ -83,7 +97,6 @@ abstract class SalesForce implements SalesForceInterface {
 		return $setting ? $setting : $wpOption;
 	}
 
-
 	/**
 	 * @param $value
 	 * @param bool $sql
@@ -98,7 +111,6 @@ abstract class SalesForce implements SalesForceInterface {
 		if ($sql) {
 			$value = str_replace('"', '', $value);
 			$value = str_replace("'", "\'", $value);
-			//$value = '"' . $value . '"';
 		}
 		return $value;
 	}
@@ -198,8 +210,7 @@ abstract class SalesForce implements SalesForceInterface {
 		}
 		$limit = empty($limit) ? "" : "LIMIT {$limit}";
 		$query = $select . $from . $where . $limit;
-		$response = $this->client->searchSOQL($query);
-		return $response;
+		return $this->client->searchSOQL($query);
 	}
 
 	/**

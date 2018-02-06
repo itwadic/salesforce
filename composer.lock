@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d337ac8331fa6c963307cebeb38a2ad0",
+    "content-hash": "bc60a366f7f9d6df92df389f606787db",
     "packages": [
         {
             "name": "mcorrigan/salesforce-rest-api-php-wrapper",
@@ -49,6 +49,8 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": ">=7.0"
+    },
     "platform-dev": []
 }
