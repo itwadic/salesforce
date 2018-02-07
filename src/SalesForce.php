@@ -121,9 +121,16 @@ abstract class SalesForce implements SalesForceInterface {
 	 * @return array
 	 */
 	public function buildPayload( array $payload ):array {
+		// Lowercase Payload used to easily match against payloadFields regardless of casing
+		$lowercasePayload = [];
+		foreach($payload as $key => $value) {
+			$lowercasePayload[strtolower($key)] = $value;
+		}
+		// Remove payload items that don't match or have no value
 		$fields = [];
 		foreach($this->payloadFields as $item) {
-			$value = isset($payload[$item]) ? $payload[$item] : NULL;
+			$payloadKey = strotolower($item);
+			$value = isset($lowercasePayload[$payloadKey]) ? $lowercasePayload[$payloadKey] : NULL;
 			if (isset($value)) {
 				$fields[$item] = $value;
 			}
