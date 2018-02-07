@@ -129,7 +129,7 @@ abstract class SalesForce implements SalesForceInterface {
 		// Remove payload items that don't match or have no value
 		$fields = [];
 		foreach($this->payloadFields as $item) {
-			$payloadKey = strotolower($item);
+			$payloadKey = strtolower($item);
 			$value = isset($lowercasePayload[$payloadKey]) ? $lowercasePayload[$payloadKey] : NULL;
 			if (isset($value)) {
 				$fields[$item] = $value;
