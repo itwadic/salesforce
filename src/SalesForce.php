@@ -92,11 +92,11 @@ abstract class SalesForce implements SalesForceInterface {
 			$token
 		);
 
-		if ($this->accessAllFields) {
-			$fields = $this->fields();
-			$this->payloadFields = array_map(function($value) {
+		if ( $this->accessAllFields ) {
+			$fields              = $this->fields();
+			$this->payloadFields = array_map( function ( $value ) {
 				return $value['name'];
-			}, $fields);
+			}, $fields );
 		}
 
 	}
@@ -225,7 +225,7 @@ abstract class SalesForce implements SalesForceInterface {
 	public function query( array $conditions, $limit = 0 ) {
 		$columns           = $this->payloadFields;
 		$columns[]         = "Id";
-		$selectColumns     = array_merge( $columns, $this->referenceFields );
+		$selectColumns     = array_unique( array_merge( $columns, $this->referenceFields ) );
 		$selectColumnsList = implode( ', ', $selectColumns );
 		$objectName        = $this->objectName;
 		$select            = "SELECT {$selectColumnsList}\n";
