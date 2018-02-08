@@ -16,7 +16,7 @@ interface SalesForceInterface {
 	 *
 	 * @return mixed
 	 */
-	public function buildPayload(array $payload);
+	public function buildPayload( array $payload );
 
 	/**
 	 * Get a list of available fields in the SalesForce object
@@ -34,7 +34,7 @@ interface SalesForceInterface {
 	 *
 	 * @return mixed
 	 */
-	public function query(array $conditions, $limit = 0);
+	public function query( array $conditions, $limit = 0 );
 
 	/**
 	 * Create an item in the SalesForce object
@@ -43,7 +43,7 @@ interface SalesForceInterface {
 	 *
 	 * @return mixed
 	 */
-	public function create(array $payload);
+	public function create( array $payload );
 
 	/**
 	 * Update an item in the SalesForce object
@@ -53,7 +53,7 @@ interface SalesForceInterface {
 	 *
 	 * @return mixed
 	 */
-	public function update(string $objectId, array $payload);
+	public function update( string $objectId, array $payload );
 
 	/**
 	 * Query for an item to determine if you need to create or update it
@@ -63,7 +63,7 @@ interface SalesForceInterface {
 	 *
 	 * @return mixed
 	 */
-	public function queryCreateUpdate(array $conditions, array $payload);
+	public function queryCreateUpdate( array $conditions, array $payload );
 
 	/**
 	 * Get an existing item in the SalesForce object
@@ -72,7 +72,7 @@ interface SalesForceInterface {
 	 *
 	 * @return mixed
 	 */
-	public function get(string $objectId);
+	public function get( string $objectId );
 
 	/**
 	 * Delete an existing item in the SalesForce object
@@ -81,5 +81,5 @@ interface SalesForceInterface {
 	 *
 	 * @return mixed
 	 */
-	public function delete(string $objectId);
+	public function delete( string $objectId );
 }

@@ -53,23 +53,23 @@ abstract class SalesForce implements SalesForceInterface {
 	 *
 	 * @throws \SalesforceRestAPI\SalesforceAPIException
 	 */
-	public function __construct($settings = []) {
+	public function __construct( $settings = [] ) {
 		$this->settings = $settings;
-		$instance = $this->getSetting('instance');
-		$id = $this->getSetting('id');
-		$secret = $this->getSetting('secret');
-		$username = $this->getSetting('username');
-		$password = $this->getSetting('password');
-		$token = $this->getSetting('token');
-		$url = empty($instance) ? NULL : "https://{$instance}.salesforce.com";
-		$version = '41.0';
+		$instance       = $this->getSetting( 'instance' );
+		$id             = $this->getSetting( 'id' );
+		$secret         = $this->getSetting( 'secret' );
+		$username       = $this->getSetting( 'username' );
+		$password       = $this->getSetting( 'password' );
+		$token          = $this->getSetting( 'token' );
+		$url            = empty( $instance ) ? null : "https://{$instance}.salesforce.com";
+		$version        = '41.0';
 
-		if (empty($instance) ||
-		    empty($id) ||
-		    empty($secret) ||
-		    empty($username) ||
-		    empty($password) ||
-		    empty($token)) {
+		if ( empty( $instance ) ||
+		     empty( $id ) ||
+		     empty( $secret ) ||
+		     empty( $username ) ||
+		     empty( $password ) ||
+		     empty( $token ) ) {
 			return false;
 		}
 
@@ -91,9 +91,10 @@ abstract class SalesForce implements SalesForceInterface {
 	 *
 	 * @return mixed|void
 	 */
-	private function getSetting($option) {
-		$setting = isset($this->settings[$option]) ? $this->settings[$option] : NULL;
-		$wpOption = function_exists('get_option') ? get_option("salesforce_{$option}") : NULL;
+	private function getSetting( $option ) {
+		$setting  = isset( $this->settings[ $option ] ) ? $this->settings[ $option ] : null;
+		$wpOption = function_exists( 'get_option' ) ? get_option( "salesforce_{$option}" ) : null;
+
 		return $setting ? $setting : $wpOption;
 	}
 
@@ -103,15 +104,16 @@ abstract class SalesForce implements SalesForceInterface {
 	 *
 	 * @return string
 	 */
-	private function sanitizeValue($value, $sql = false) {
-		$value = stripslashes($value);
-		$value = htmlentities($value);
-		$value = strip_tags($value);
-		$value = trim($value);
-		if ($sql) {
-			$value = str_replace('"', '', $value);
-			$value = str_replace("'", "\'", $value);
+	private function sanitizeValue( $value, $sql = false ) {
+		$value = stripslashes( $value );
+		$value = htmlentities( $value );
+		$value = strip_tags( $value );
+		$value = trim( $value );
+		if ( $sql ) {
+			$value = str_replace( '"', '', $value );
+			$value = str_replace( "'", "\'", $value );
 		}
+
 		return $value;
 	}
 
@@ -120,21 +122,22 @@ abstract class SalesForce implements SalesForceInterface {
 	 *
 	 * @return array
 	 */
-	public function buildPayload( array $payload ):array {
+	public function buildPayload( array $payload ): array {
 		// Lowercase Payload used to easily match against payloadFields regardless of casing
 		$lowercasePayload = [];
-		foreach($payload as $key => $value) {
-			$lowercasePayload[strtolower($key)] = $value;
+		foreach ( $payload as $key => $value ) {
+			$lowercasePayload[ strtolower( $key ) ] = $value;
 		}
 		// Remove payload items that don't match or have no value
 		$fields = [];
-		foreach($this->payloadFields as $item) {
-			$payloadKey = strtolower($item);
-			$value = isset($lowercasePayload[$payloadKey]) ? $lowercasePayload[$payloadKey] : NULL;
-			if (isset($value)) {
-				$fields[$item] = $value;
+		foreach ( $this->payloadFields as $item ) {
+			$payloadKey = strtolower( $item );
+			$value      = isset( $lowercasePayload[ $payloadKey ] ) ? $lowercasePayload[ $payloadKey ] : null;
+			if ( isset( $value ) ) {
+				$fields[ $item ] = $value;
 			}
 		}
+
 		return $fields;
 	}
 
@@ -145,11 +148,12 @@ abstract class SalesForce implements SalesForceInterface {
 	 * @throws \SalesforceRestAPI\SalesforceAPIException
 	 */
 	public function create( array $payload ) {
-		if (empty($payload)) {
+		if ( empty( $payload ) ) {
 			return false;
 		}
-		$fields = $this->buildPayload($payload);
-		return $this->client->create($this->objectName, $fields);
+		$fields = $this->buildPayload( $payload );
+
+		return $this->client->create( $this->objectName, $fields );
 	}
 
 	/**
@@ -159,10 +163,11 @@ abstract class SalesForce implements SalesForceInterface {
 	 * @throws \SalesforceRestAPI\SalesforceAPIException
 	 */
 	public function get( string $objectId ) {
-		if (empty($objectId)) {
+		if ( empty( $objectId ) ) {
 			return false;
 		}
-		return $this->client->get($this->objectName, $objectId, $this->payloadFields);
+
+		return $this->client->get( $this->objectName, $objectId, $this->payloadFields );
 	}
 
 	/**
@@ -173,11 +178,12 @@ abstract class SalesForce implements SalesForceInterface {
 	 * @throws \SalesforceRestAPI\SalesforceAPIException
 	 */
 	public function update( string $objectId, array $payload ) {
-		if (empty($objectId) || empty($payload)) {
+		if ( empty( $objectId ) || empty( $payload ) ) {
 			return false;
 		}
-		$fields = $this->buildPayload($payload);
-		return $this->client->update($this->objectName, $objectId, $fields);
+		$fields = $this->buildPayload( $payload );
+
+		return $this->client->update( $this->objectName, $objectId, $fields );
 	}
 
 	/**
@@ -187,10 +193,11 @@ abstract class SalesForce implements SalesForceInterface {
 	 * @throws \SalesforceRestAPI\SalesforceAPIException
 	 */
 	public function delete( string $objectId ) {
-		if (empty($objectId)) {
+		if ( empty( $objectId ) ) {
 			return false;
 		}
-		return $this->client->delete($this->objectName, $objectId);
+
+		return $this->client->delete( $this->objectName, $objectId );
 	}
 
 	/**
@@ -201,23 +208,24 @@ abstract class SalesForce implements SalesForceInterface {
 	 * @throws \SalesforceRestAPI\SalesforceAPIException
 	 */
 	public function query( array $conditions, $limit = 0 ) {
-		$columns = $this->payloadFields;
-		$columns[] = "Id";
-		$selectColumns = array_merge($columns, $this->referenceFields);
-		$selectColumnsList = implode(', ', $selectColumns);
-		$objectName = $this->objectName;
-		$select = "SELECT {$selectColumnsList}\n";
-		$from = " FROM {$objectName}\n";
-		$where = empty($conditions) ? "" : "WHERE ";
-		$index = 0;
-		foreach($conditions as $key => $value) {
-			$sanitizedValue = $this->sanitizeValue($value, true);
-			$where .= ($index === 0) ? "{$key} = '{$sanitizedValue}'\n" : " AND {$key} = '{$sanitizedValue}'\n";
-			$index++;
+		$columns           = $this->payloadFields;
+		$columns[]         = "Id";
+		$selectColumns     = array_merge( $columns, $this->referenceFields );
+		$selectColumnsList = implode( ', ', $selectColumns );
+		$objectName        = $this->objectName;
+		$select            = "SELECT {$selectColumnsList}\n";
+		$from              = " FROM {$objectName}\n";
+		$where             = empty( $conditions ) ? "" : "WHERE ";
+		$index             = 0;
+		foreach ( $conditions as $key => $value ) {
+			$sanitizedValue = $this->sanitizeValue( $value, true );
+			$where          .= ( $index === 0 ) ? "{$key} = '{$sanitizedValue}'\n" : " AND {$key} = '{$sanitizedValue}'\n";
+			$index ++;
 		}
-		$limit = empty($limit) ? "" : "LIMIT {$limit}";
+		$limit = empty( $limit ) ? "" : "LIMIT {$limit}";
 		$query = $select . $from . $where . $limit;
-		return $this->client->searchSOQL($query);
+
+		return $this->client->searchSOQL( $query );
 	}
 
 	/**
@@ -228,15 +236,15 @@ abstract class SalesForce implements SalesForceInterface {
 	 * @throws \SalesforceRestAPI\SalesforceAPIException
 	 */
 	public function queryCreateUpdate( array $conditions, array $payload ) {
-		if (empty($conditions) || empty($payload)) {
+		if ( empty( $conditions ) || empty( $payload ) ) {
 			return false;
 		}
-		$response = $this->query($conditions, 1);
-		$record = isset($response['records']) ? reset($response['records']) : NULL;
-		if (empty($record)) {
-			return $this->create($payload);
+		$response = $this->query( $conditions, 1 );
+		$record   = isset( $response['records'] ) ? reset( $response['records'] ) : null;
+		if ( empty( $record ) ) {
+			return $this->create( $payload );
 		} else {
-			return $this->update($record['Id'], $payload);
+			return $this->update( $record['Id'], $payload );
 		}
 	}
 
@@ -244,15 +252,24 @@ abstract class SalesForce implements SalesForceInterface {
 	 * @return array
 	 * @throws \SalesforceRestAPI\SalesforceAPIException
 	 */
-	public function fields():array {
-		$response = $this->client->getObjectMetadata($this->objectName, true);
-		$fields = is_array($response['fields']) ? $response['fields'] : [];
-		return array_map(function($value) {
-			return [
+	public function fields(): array {
+		$response = $this->client->getObjectMetadata( $this->objectName, true );
+		$fields   = is_array( $response['fields'] ) ? $response['fields'] : [];
+
+		return array_map( function ( $value ) {
+			$item = [
 				'label' => $value['label'],
-				'name' => $value['name'],
-				'type' => $value['type'],
+				'name'  => $value['name'],
+				'type'  => $value['type'],
 			];
-		}, $fields);
+			if ( $value['type'] === 'reference' ) {
+				$item['referenceTo'] = $value['referenceTo'];
+			} elseif ( $value['type'] === 'picklist' ) {
+				$item['picklistValues'] = $value['picklistValues'];
+			}
+
+			return $item;
+		}, $fields );
+
 	}
 }
