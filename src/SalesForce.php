@@ -33,6 +33,13 @@ abstract class SalesForce implements SalesForceInterface {
 	public $referenceFields = [];
 
 	/**
+	 * Allows all fields in SalesForce to be accessed and editable
+	 *
+	 * @var $accessAllFields
+	 */
+	public $accessAllFields = false;
+
+	/**
 	 * Client is based on SalesforceAPI that's set in the constructor
 	 *
 	 * @var $client
@@ -84,6 +91,14 @@ abstract class SalesForce implements SalesForceInterface {
 			$password,
 			$token
 		);
+
+		if ($this->accessAllFields) {
+			$fields = $this->fields();
+			$this->payloadFields = array_map(function($value) {
+				return $value['name'];
+			}, $this->payloadFields);
+		}
+
 	}
 
 	/**
