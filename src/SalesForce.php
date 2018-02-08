@@ -96,7 +96,7 @@ abstract class SalesForce implements SalesForceInterface {
 			$fields = $this->fields();
 			$this->payloadFields = array_map(function($value) {
 				return $value['name'];
-			}, $this->payloadFields);
+			}, $fields);
 		}
 
 	}
