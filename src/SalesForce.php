@@ -259,7 +259,11 @@ abstract class SalesForce implements SalesForceInterface {
 		if ( empty( $record ) ) {
 			return $this->create( $payload );
 		} else {
-			return $this->update( $record['Id'], $payload );
+			$update_response = $this->update( $record['Id'], $payload );
+			return [
+				'id'     => $record['Id'],
+				'update' => $update_response,
+			];
 		}
 	}
 
